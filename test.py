@@ -1,6 +1,6 @@
 import sys
 import json
-from proxycrawl_api import ProxyCrawlAPI
+from proxycrawl import ProxyCrawlAPI
 
 normal_token = ''
 javascript_token = ''

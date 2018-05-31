@@ -2,7 +2,10 @@
 
 import os
 
-from setuptools import find_packages, setup
+try:
+    from setuptools import setup, find_packages
+except ImportError:
+    from distutils.core import setup, find_packages
 
 readme = open('README.md').read()
 
