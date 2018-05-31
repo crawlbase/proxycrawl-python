@@ -12,7 +12,7 @@ Choose a way of installing:
 Then import the ProxyCrawlAPI
 
 ```python
-from proxycrawl_api import ProxyCrawlAPI
+from proxycrawl import ProxyCrawlAPI
 ```
 
 ## Class usage
