@@ -72,4 +72,3 @@ class ProxyCrawlAPI:
         self.response['headers']['original_status'] = str(parsed_json['original_status'])
         self.response['headers']['pc_status'] = str(parsed_json['pc_status'])
         self.response['headers']['url'] = parsed_json['url']
-        self.response['body'] = parsed_json['body']
