@@ -121,4 +121,4 @@ If you have questions or need help using the library, please open an issue or [c
 
 ---
 
-Copyright 2018 ProxyCrawl
+Copyright 2019 ProxyCrawl
