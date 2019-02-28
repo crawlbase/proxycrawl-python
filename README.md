@@ -43,7 +43,7 @@ Example:
 
 ```python
 response = api.get('https://www.facebook.com/britneyspears')
-if response['status_code'] === 200:
+if response['status_code'] == 200:
     print(response['body'])
 ```
 
@@ -56,7 +56,7 @@ response = api.get('https://www.reddit.com/r/pics/comments/5bx4bx/thanks_obama/'
     'user_agent': 'Mozilla/5.0 (Windows NT 6.2; rv:20.0) Gecko/20121202 Firefox/30.0',
     'format': 'json'
 })
-if response['status_code'] === 200:
+if response['status_code'] == 200:
     print(response['body'])
 ```
 
@@ -72,7 +72,7 @@ Example:
 
 ```python
 response = api.post('https://producthunt.com/search', { 'text': 'example search' })
-if response['status_code'] === 200:
+if response['status_code'] == 200:
     print(response['body'])
 ```
 
@@ -81,7 +81,7 @@ You can send the data as `application/json` instead of `x-www-form-urlencoded` b
 ```python
 import json
 response = api.post('https://httpbin.org/post', json.dumps({ 'some_json': 'with some value' }), { 'post_content_type': 'json' })
-if response['status_code'] === 200:
+if response['status_code'] == 200:
     print(response['body'])
 ```
 
@@ -95,7 +95,7 @@ api = ProxyCrawlAPI({ 'token': 'YOUR_JAVASCRIPT_TOKEN' })
 
 ```python
 response = api.get('https://www.nfl.com')
-if response['status_code'] === 200:
+if response['status_code'] == 200:
     print(response['body'])
 ```
 
@@ -103,7 +103,7 @@ Same way you can pass javascript additional options.
 
 ```python
 response = api.get('https://www.freelancer.com', { 'page_wait': 5000 })
-if response['status_code'] === 200:
+if response['status_code'] == 200:
     print(response['body'])
 ```
 
