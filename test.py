@@ -1,6 +1,11 @@
 import sys
 import json
-from proxycrawl import ProxyCrawlAPI
+try:
+    # For Python 3.0 and later
+    from proxycrawl.proxycrawl_api import ProxyCrawlAPI
+except ImportError:
+    # Fall back to Python 2's
+    from proxycrawl import ProxyCrawlAPI
 
 normal_token = ''
 javascript_token = ''

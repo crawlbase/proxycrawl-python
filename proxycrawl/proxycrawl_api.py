@@ -1,16 +1,24 @@
+import json
+import gzip
+import ssl
 try:
     # For Python 3.0 and later
-    from urllib.request import urlopen, HTTPError
+    from urllib.request import urlopen, HTTPError, Request
 except ImportError:
     # Fall back to Python 2's
-    from urllib2 import urlopen, HTTPError
+    from urllib2 import urlopen, HTTPError, Request
 try:
     # For Python 3.0 and later
     from urllib.parse import urlencode, quote_plus
 except ImportError:
     # Fall back to Python 2's
     from urllib import urlencode, quote_plus
-import json
+try:
+    # For Python 3.0 and later
+    from io import  BytesIO
+except ImportError:
+    # Fall back to Python 2's
+    from BytesIO import BytesIO
 
 #
 # A Python class that acts as wrapper for ProxyCrawl API.
@@ -24,6 +32,7 @@ PROXYCRAWL_API_URL = 'https://api.proxycrawl.com/'
 
 class ProxyCrawlAPI:
     timeout = 30000
+    headers = { 'Accept-Encoding': 'gzip' }
 
     def __init__(self, options):
         if options['token'] is None or options['token'] == '':
@@ -40,23 +49,27 @@ class ProxyCrawlAPI:
         data = data.encode('utf-8')
         return self.request(url, data, options)
 
-    def request(self, url, data = None, options = {}):
+    def request(self, url, data=None, options = {}):
         self.response = {}
+        self.response['headers'] = {}
         url = self.buildURL(url, options)
+        req = Request(url, headers=self.headers)
+        ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS)
 
         try:
-            handler = urlopen(url, data, self.timeout)
+            self.handler = urlopen(req, data, self.timeout, context=ssl_context)
         except HTTPError as error:
-            self.response['headers'] = {}
             self.response['body'] = ''
             self.response['status_code'] = error.code
             return self.response
 
-        self.response['status_code'] = handler.getcode()
-        self.response['headers'] = handler.headers
-        self.response['body'] = handler.read()
+        self.response['status_code'] = self.handler.getcode()
+        self.response['body'] = self.decompressBody()
+
         if 'format' in options and options['format'] == 'json':
             self.parseJsonResponse()
+        else:
+            self.parseRegularResponse()
 
         return self.response
 
@@ -67,8 +80,20 @@ class ProxyCrawlAPI:
 
         return url
 
+    def decompressBody(self):
+        body_stream = BytesIO(self.handler.read())
+        body_gzip = gzip.GzipFile(fileobj=body_stream)
+
+        return body_gzip.read()
+
     def parseJsonResponse(self):
         parsed_json = json.loads(self.response['body'])
         self.response['headers']['original_status'] = str(parsed_json['original_status'])
         self.response['headers']['pc_status'] = str(parsed_json['pc_status'])
-        self.response['headers']['url'] = parsed_json['url']
+        self.response['headers']['url'] = str(parsed_json['url'])
+
+    def parseRegularResponse(self):
+        headers = self.handler.headers
+        self.response['headers']['original_status'] = str(headers.get('original_status'))
+        self.response['headers']['pc_status'] = str(headers.get('pc_status'))
+        self.response['headers']['url'] = str(headers.get('url'))
