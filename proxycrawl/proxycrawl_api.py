@@ -15,7 +15,7 @@ except ImportError:
     from urllib import urlencode, quote_plus
 try:
     # For Python 3.0 and later
-    from io import  BytesIO
+    from io import BytesIO
 except ImportError:
     # Fall back to Python 2's
     from BytesIO import BytesIO
