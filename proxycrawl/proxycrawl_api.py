@@ -40,16 +40,16 @@ class ProxyCrawlAPI:
         self.options = options
         self.endPointUrl = PROXYCRAWL_API_URL + '?token=' + options['token']
 
-    def get(self, url, options = {}):
+    def get(self, url, options = None):
         return self.request(url, None, options)
 
-    def post(self, url, data, options = {}):
+    def post(self, url, data, options = None):
         if isinstance(data, dict):
             data = urlencode(data)
         data = data.encode('utf-8')
         return self.request(url, data, options)
 
-    def request(self, url, data=None, options = {}):
+    def request(self, url, data = None, options = None):
         self.response = {}
         self.response['headers'] = {}
         url = self.buildURL(url, options)
@@ -66,7 +66,7 @@ class ProxyCrawlAPI:
         self.response['status_code'] = self.handler.getcode()
         self.response['body'] = self.decompressBody()
 
-        if 'format' in options and options['format'] == 'json':
+        if not options.get('callback') and options.get('format') == 'json':
             self.parseJsonResponse()
         else:
             self.parseRegularResponse()
@@ -74,7 +74,7 @@ class ProxyCrawlAPI:
         return self.response
 
     def buildURL(self, url, options):
-        options = urlencode(options)
+        options = urlencode(options or {})
         url = quote_plus(url)
         url = self.endPointUrl + '&url=' + url + '&' + options
 
