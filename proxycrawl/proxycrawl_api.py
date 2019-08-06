@@ -66,7 +66,7 @@ class ProxyCrawlAPI:
         self.response['status_code'] = self.handler.getcode()
         self.response['body'] = self.decompressBody()
 
-        if not options.get('callback') and options.get('format') == 'json':
+        if options and not options.get('callback') and options.get('format') == 'json':
             self.parseJsonResponse()
         else:
             self.parseRegularResponse()
