@@ -64,7 +64,11 @@ class ProxyCrawlAPI:
             return self.response
 
         self.response['status_code'] = self.handler.getcode()
-        self.response['body'] = self.decompressBody()
+        response_headers = dict(self.handler.info())
+        if ('Content-Encoding' in response_headers and response_headers['Content-Encoding'] == 'gzip') or ('content-encoding' in response_headers and response_headers['content-encoding'] == 'gzip'):
+            self.response['body'] = self.decompressBody()
+        else:
+            self.response['body'] = self.handler.read()
 
         if options and not options.get('callback') and options.get('format') == 'json':
             self.parseJsonResponse()
