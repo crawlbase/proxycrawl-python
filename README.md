@@ -119,6 +119,16 @@ print(response['headers']['pc_status'])
 
 If you have questions or need help using the library, please open an issue or [contact us](https://proxycrawl.com/contact).
 
+## Custom timeout
+
+If you need to use a custom timeout, you can pass it to the class instance creation like the following:
+
+```python
+api = ProxyCrawlAPI({ 'token': 'TOKEN', 'timeout': 120 })
+```
+
+Timeout is in seconds.
+
 ---
 
 Copyright 2020 ProxyCrawl

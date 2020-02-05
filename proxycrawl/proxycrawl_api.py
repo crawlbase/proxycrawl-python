@@ -37,6 +37,8 @@ class ProxyCrawlAPI:
     def __init__(self, options):
         if options['token'] is None or options['token'] == '':
             raise Exception('You need to specify the token')
+        if 'timeout' in options:
+            self.timeout = options['timeout']
         self.options = options
         self.endPointUrl = PROXYCRAWL_API_URL + '?token=' + options['token']
 
