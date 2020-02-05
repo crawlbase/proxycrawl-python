@@ -31,7 +31,7 @@ except ImportError:
 PROXYCRAWL_API_URL = 'https://api.proxycrawl.com/'
 
 class ProxyCrawlAPI:
-    timeout = 30000
+    timeout = 90
     headers = { 'Accept-Encoding': 'gzip' }
 
     def __init__(self, options):
