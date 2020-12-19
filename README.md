@@ -12,7 +12,7 @@ Choose a way of installing:
 Then import the CrawlingAPI, ScraperAPI, etc as needed.
 
 ```python
-from proxycrawl import CrawlingAPI, ScraperAPI
+from proxycrawl import CrawlingAPI, ScraperAPI, LeadsAPI
 ```
 
 ## Class usage
@@ -122,6 +122,19 @@ print(response['headers']['pc_status'])
 ```
 
 If you have questions or need help using the library, please open an issue or [contact us](https://proxycrawl.com/contact).
+
+## Leads API
+
+To find email leads you can use the leads API, you can check the full [API documentation](https://proxycrawl.com/docs/leads-api/) if needed.
+
+```python
+leads_api = LeadsAPI({ 'token': 'YOUR_NORMAL_TOKEN' })
+
+response = leads_api.get_from_domain('microsoft.com')
+
+if response['status_code'] == 200:
+    print(response['json']['leads'])
+```
 
 ## Custom timeout
 

@@ -1,3 +1,4 @@
-from proxycrawl.proxycrawl_api import ProxyCrawlAPI # For backward compatibility
+from proxycrawl.proxycrawl_api import ProxyCrawlAPI # For < 3.0 compatibility
 from proxycrawl.crawling_api import CrawlingAPI
 from proxycrawl.scraper_api import ScraperAPI
+from proxycrawl.leads_api import LeadsAPI

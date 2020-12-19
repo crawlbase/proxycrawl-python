@@ -97,6 +97,8 @@ class BaseAPI(object):
                 self.response['json'] = json.loads(parsed_json['body'])
             else:
                 self.response['json'] = parsed_json['body']
+        else:
+            self.response['json'] = parsed_json
 
     def parseRegularResponse(self, handler):
         headers = handler.headers
