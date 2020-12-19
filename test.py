@@ -1,11 +1,7 @@
 import sys
 import json
-try:
-    # For Python 3.0 and later
-    from proxycrawl.proxycrawl_api import ProxyCrawlAPI
-except ImportError:
-    # Fall back to Python 2's
-    from proxycrawl import ProxyCrawlAPI
+
+from proxycrawl import CrawlingAPI, ScraperAPI
 
 normal_token = ''
 javascript_token = ''
@@ -17,7 +13,7 @@ def process_response(response):
         print('Test failed, expected status_code 200 but got: ' + str(response['status_code']))
         sys.exit(0)
 
-normal_api = ProxyCrawlAPI({ 'token': normal_token })
+normal_api = CrawlingAPI({ 'token': normal_token })
 
 process_response(normal_api.get('http://httpbin.org/anything?hello=world'))
 
@@ -29,6 +25,10 @@ process_response(normal_api.post('http://httpbin.org/post', { 'hello': 'post' })
 
 process_response(normal_api.post('http://httpbin.org/post',  json.dumps({ 'hello': 'json' }), { 'post_content_type': 'application/json' }))
 
-javascript_api = ProxyCrawlAPI({ 'token': javascript_token })
+javascript_api = CrawlingAPI({ 'token': javascript_token })
 
 process_response(javascript_api.get('http://httpbin.org/anything?hello=world'))
+
+scraper_api = ScraperAPI({ 'token': normal_token })
+
+process_response(scraper_api.get('https://www.amazon.com/DualSense-Wireless-Controller-PlayStation-5/dp/B08FC6C75Y/'))

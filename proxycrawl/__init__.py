@@ -1,6 +1,3 @@
-try:
-    # Python 2
-    from proxycrawl_api import ProxyCrawlAPI
-except ModuleNotFoundError:
-    # Python 3
-    import proxycrawl.proxycrawl_api
+from proxycrawl.proxycrawl_api import ProxyCrawlAPI # For backward compatibility
+from proxycrawl.crawling_api import CrawlingAPI
+from proxycrawl.scraper_api import ScraperAPI

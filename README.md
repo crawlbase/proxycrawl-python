@@ -9,31 +9,23 @@ Choose a way of installing:
 - Download the python class from Github.
 - Or use [PyPi](https://pypi.org/project/proxycrawl/) Python package manager. `pip install proxycrawl`
 
-Then import the ProxyCrawlAPI
-
-Python2:
+Then import the CrawlingAPI, ScraperAPI, etc as needed.
 
 ```python
-from proxycrawl import ProxyCrawlAPI
-```
-
-Python3:
-
-```python
-from proxycrawl.proxycrawl_api import ProxyCrawlAPI
+from proxycrawl import CrawlingAPI, ScraperAPI
 ```
 
 ## Class usage
 
-First initialize the ProxyCrawlAPI class
+First initialize the CrawlingAPI (ScraperAPI or the one you are using) class.
 
 ```python
-api = ProxyCrawlAPI({ 'token': 'YOUR_PROXYCRAWL_TOKEN' })
+api = CrawlingAPI({ 'token': 'YOUR_PROXYCRAWL_TOKEN' })
 ```
 
 ### GET requests
 
-Pass the url that you want to scrape plus any options from the ones available in the [API documentation](https://proxycrawl.com/dashboard/docs).
+Pass the url that you want to scrape plus any options from the ones available in the [API documentation](https://proxycrawl.com/docs).
 
 ```python
 api.get(url, options = {})
@@ -62,7 +54,7 @@ if response['status_code'] == 200:
 
 ### POST requests
 
-Pass the url that you want to scrape, the data that you want to send which can be either a json or a string, plus any options from the ones available in the [API documentation](https://proxycrawl.com/dashboard/docs).
+Pass the url that you want to scrape, the data that you want to send which can be either a json or a string, plus any options from the ones available in the [API documentation](https://proxycrawl.com/docs).
 
 ```python
 api.post(url, dictionary or string data, options = {})
@@ -90,7 +82,7 @@ if response['status_code'] == 200:
 If you need to scrape any website built with Javascript like React, Angular, Vue, etc. You just need to pass your javascript token and use the same calls. Note that only `.get` is available for javascript and not `.post`.
 
 ```python
-api = ProxyCrawlAPI({ 'token': 'YOUR_JAVASCRIPT_TOKEN' })
+api = CrawlingAPI({ 'token': 'YOUR_JAVASCRIPT_TOKEN' })
 ```
 
 ```python
@@ -107,9 +99,21 @@ if response['status_code'] == 200:
     print(response['body'])
 ```
 
+### Scraper API
+
+The usage of the Scraper API is very similar, just change the class name to initialize.
+
+```python
+scraper_api = ScraperAPI({ 'token': 'YOUR_NORMAL_TOKEN' })
+
+response = scraper_api.get('https://www.amazon.com/DualSense-Wireless-Controller-PlayStation-5/dp/B08FC6C75Y/')
+if response['status_code'] == 200:
+    print(response['json']['name']) # Will print the name of the Amazon product
+```
+
 ## Original status
 
-You can always get the original status and proxycrawl status from the response. Read the [ProxyCrawl documentation](https://proxycrawl.com/dashboard/docs) to learn more about those status.
+You can always get the original status and proxycrawl status from the response. Read the [ProxyCrawl documentation](https://proxycrawl.com/docs) to learn more about those status.
 
 ```python
 response = api.get('https://craiglist.com')
@@ -124,7 +128,7 @@ If you have questions or need help using the library, please open an issue or [c
 If you need to use a custom timeout, you can pass it to the class instance creation like the following:
 
 ```python
-api = ProxyCrawlAPI({ 'token': 'TOKEN', 'timeout': 120 })
+api = CrawlingAPI({ 'token': 'TOKEN', 'timeout': 120 })
 ```
 
 Timeout is in seconds.
