@@ -11,8 +11,9 @@ from proxycrawl.base_api import BaseAPI
 class ScraperAPI(BaseAPI):
     base_path = 'scraper'
 
-    def get(self, url, options = None):
-        return self.request(url, None, options)
+    def get(self, url, options = {}):
+        options['url'] = url
+        return self.request(options)
 
-    def post(self, url, data, options = None):
+    def post(self, url, data, options = {}):
         raise Exception('Only GET is allowed on the Scraper API')

@@ -1,3 +1,10 @@
+try:
+    # For Python 3.0 and later
+    from urllib.parse import urlencode, quote_plus
+except ImportError:
+    # Fall back to Python 2's
+    from urllib import urlencode, quote_plus
+
 from proxycrawl.base_api import BaseAPI
 
 #
@@ -9,11 +16,13 @@ from proxycrawl.base_api import BaseAPI
 # Licensed under the Apache License 2.0
 #
 class CrawlingAPI(BaseAPI):
-    def get(self, url, options = None):
-        return self.request(url, None, options)
+    def get(self, url, options = {}):
+        options['url'] = url
+        return self.request(options)
 
-    def post(self, url, data, options = None):
+    def post(self, url, data, options = {}):
         if isinstance(data, dict):
             data = urlencode(data)
         data = data.encode('utf-8')
-        return self.request(url, data, options)
+        options['url'] = url
+        return self.request(options, data)

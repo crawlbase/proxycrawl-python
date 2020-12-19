@@ -31,7 +31,7 @@ except ImportError:
 #
 PROXYCRAWL_API_URL = 'https://api.proxycrawl.com/'
 
-class BaseAPI:
+class BaseAPI(object):
     timeout = 120
     headers = { 'Accept-Encoding': 'gzip' }
     base_path = ''
@@ -43,10 +43,10 @@ class BaseAPI:
             self.timeout = options['timeout']
         self.options = options
 
-    def request(self, url, data = None, options = None):
+    def request(self, options = {}, data = None):
         self.response = {}
         self.response['headers'] = {}
-        url = self.buildURL(url, options)
+        url = self.buildURL(options)
         req = Request(url, headers=self.headers)
         ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS)
 
@@ -72,10 +72,9 @@ class BaseAPI:
 
         return self.response
 
-    def buildURL(self, url, options):
+    def buildURL(self, options):
         options = urlencode(options or {})
-        url = quote_plus(url)
-        url = PROXYCRAWL_API_URL + self.base_path + '?token=' + self.options['token'] + '&url=' + url + '&' + options
+        url = PROXYCRAWL_API_URL + self.base_path + '?token=' + self.options['token'] + '&' + options
 
         return url
 
@@ -87,15 +86,17 @@ class BaseAPI:
 
     def parseJsonResponse(self):
         parsed_json = json.loads(self.response['body'])
-        self.response['headers']['original_status'] = str(parsed_json['original_status'])
-        self.response['headers']['pc_status'] = str(parsed_json['pc_status'])
-        self.response['headers']['url'] = str(parsed_json['url'])
+        if 'original_status' in parsed_json:
+            self.response['headers']['original_status'] = str(parsed_json['original_status'])
+            self.response['headers']['pc_status'] = str(parsed_json['pc_status'])
+            self.response['headers']['url'] = str(parsed_json['url'])
 
-        compare_str = str if sys.version_info[0] > 2 else basestring
-        if isinstance(parsed_json['body'], compare_str):
-            self.response['json'] = json.loads(parsed_json['body'])
-        else:
-            self.response['json'] = parsed_json['body']
+        if 'body' in parsed_json:
+            compare_str = str if sys.version_info[0] > 2 else basestring
+            if isinstance(parsed_json['body'], compare_str):
+                self.response['json'] = json.loads(parsed_json['body'])
+            else:
+                self.response['json'] = parsed_json['body']
 
     def parseRegularResponse(self, handler):
         headers = handler.headers
