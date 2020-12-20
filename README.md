@@ -15,9 +15,9 @@ Then import the CrawlingAPI, ScraperAPI, etc as needed.
 from proxycrawl import CrawlingAPI, ScraperAPI, LeadsAPI
 ```
 
-## Class usage
+## Crawling API
 
-First initialize the CrawlingAPI (ScraperAPI or the one you are using) class.
+First initialize the CrawlingAPI class.
 
 ```python
 api = CrawlingAPI({ 'token': 'YOUR_PROXYCRAWL_TOKEN' })
@@ -99,7 +99,7 @@ if response['status_code'] == 200:
     print(response['body'])
 ```
 
-### Scraper API
+## Scraper API
 
 The usage of the Scraper API is very similar, just change the class name to initialize.
 
