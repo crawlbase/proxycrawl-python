@@ -15,6 +15,10 @@ Then import the CrawlingAPI, ScraperAPI, etc as needed.
 from proxycrawl import CrawlingAPI, ScraperAPI, LeadsAPI
 ```
 
+### Upgrading to version 3
+
+Version 3 deprecates the usage of ProxyCrawlAPI in favour of CrawlingAPI (although is still usable). Please test the upgrade before deploying to production.
+
 ## Crawling API
 
 First initialize the CrawlingAPI class.
