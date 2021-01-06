@@ -152,4 +152,4 @@ Timeout is in seconds.
 
 ---
 
-Copyright 2020 ProxyCrawl
+Copyright 2021 ProxyCrawl
