@@ -12,7 +12,7 @@ readme = open('README.md').read()
 setup(
     name = 'proxycrawl',
     license = 'Apache-2.0',
-    version = '3.1.0',
+    version = '3.2.0',
     description = 'A Python class that acts as wrapper for ProxyCrawl scraping and crawling API',
     long_description = readme,
     long_description_content_type = 'text/markdown',
