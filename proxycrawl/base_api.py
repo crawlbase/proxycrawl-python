@@ -46,8 +46,11 @@ class BaseAPI(object):
     def request(self, options = {}, data = None):
         self.response = {}
         self.response['headers'] = {}
+        http_method = options.pop('HTTP_METHOD') if options.has_key('HTTP_METHOD') else None
         url = self.buildURL(options)
         req = Request(url, headers=self.headers)
+        if not http_method is None:
+            req.get_method = lambda: http_method
         ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS)
 
         try:
@@ -94,7 +97,10 @@ class BaseAPI(object):
         if 'body' in parsed_json:
             compare_str = str if sys.version_info[0] > 2 else basestring
             if isinstance(parsed_json['body'], compare_str):
-                self.response['json'] = json.loads(parsed_json['body'])
+                try:
+                    self.response['json'] = json.loads(parsed_json['body'])
+                except ValueError:
+                    self.response['json'] = parsed_json['body']
             else:
                 self.response['json'] = parsed_json['body']
         else:
