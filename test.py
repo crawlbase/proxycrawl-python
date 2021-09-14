@@ -1,7 +1,7 @@
 import sys
 import json
 
-from proxycrawl import CrawlingAPI, ScraperAPI, LeadsAPI
+from proxycrawl import CrawlingAPI, ScraperAPI, LeadsAPI, ScreenshotsAPI, StorageAPI
 
 normal_token = ''
 javascript_token = ''
@@ -36,3 +36,21 @@ process_response(scraper_api.get('https://www.amazon.com/DualSense-Wireless-Cont
 leads_api = LeadsAPI({ 'token': normal_token })
 
 process_response(leads_api.get_from_domain('microsoft.com'))
+
+screenshots_api = ScreenshotsAPI({ 'token': normal_token })
+
+process_response(screenshots_api.get('https://www.apple.com'))
+
+storage_api = StorageAPI({ 'token': normal_token })
+
+rids = storage_api.rids()
+print('Test passed')
+response = storage_api.bulk(rids)
+if response['status_code'] == 200:
+    print('Test passed')
+    for item in response['json']:
+        process_response(storage_api.get(item['url']))
+        process_response(storage_api.get(item['rid']))
+
+    if (len(response['json']) == storage_api.totalCount()):
+        print('Test passed')

@@ -46,7 +46,7 @@ class BaseAPI(object):
     def request(self, options = {}, data = None):
         self.response = {}
         self.response['headers'] = {}
-        http_method = options.pop('HTTP_METHOD') if options.has_key('HTTP_METHOD') else None
+        http_method = options.pop('HTTP_METHOD') if 'HTTP_METHOD' in options else None
         url = self.buildURL(options)
         req = Request(url, headers=self.headers)
         if not http_method is None:
@@ -54,6 +54,8 @@ class BaseAPI(object):
         ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS)
 
         try:
+            if (type(data) == str):
+                data = data.encode('utf-8')
             handler = urlopen(req, data, self.timeout, context=ssl_context)
         except HTTPError as error:
             self.response['body'] = ''

@@ -13,14 +13,13 @@ class ScreenshotsAPI(BaseAPI):
     base_path = 'screenshots'
 
     def get(self, url, options = {}):
-        screenshotPath = options.pop('save_to_path') if options.has_key('save_to_path') else self.__generateFilepath()
+        screenshotPath = options.pop('save_to_path') if 'save_to_path' in options else self.__generateFilepath()
         if not re.match(r".+\.(jpg|JPG|jpeg|JPEG)$", screenshotPath):
             raise Exception('save_to_path must end with .jpg or .jpeg')
         options['url'] = url
         response = self.request(options)
-        file_handle = open(screenshotPath, 'w')
-        file_handle.write(response['body'])
-        file_handle.close()
+        with open(screenshotPath,'wb') as f:
+            f.write(response['body'])
         response['file'] = screenshotPath
         return response
 
@@ -35,7 +34,7 @@ class ScreenshotsAPI(BaseAPI):
         self.response['headers']['screenshot_url'] = str(headers.get('screenshot_url'))
 
     def __generateFilename(self):
-        return str(uuid.uuid4()) + ".jpg"
+        return str(uuid.uuid4()) + '.jpg'
 
     def __generateFilepath(self):
         return os.path.join(tempfile.gettempdir(), self.__generateFilename())

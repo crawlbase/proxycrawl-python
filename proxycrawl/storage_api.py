@@ -20,7 +20,7 @@ class StorageAPI(BaseAPI):
     def get(self, url_or_rid, options = {}):
         if url_or_rid is None or url_or_rid == '':
             raise Exception(INVALID_URL_OR_RID)
-        if not options.has_key('format'):
+        if 'format' not in options:
             options['format'] = 'html'
         options.update(self.__decideUrlOrRID(url_or_rid))
         self.base_path = 'storage'
