@@ -1,3 +1,9 @@
+# DEPRECATION NOTICE
+
+> :warning: **IMPORTANT:** This package is no longer maintained or supported. For the latest updates, please use our new package at [crawlbase-python](https://github.com/crawlbase-source/crawlbase-python).
+
+---
+
 # ProxyCrawl API Python class
 
 A lightweight, dependency free Python class that acts as wrapper for ProxyCrawl API.
